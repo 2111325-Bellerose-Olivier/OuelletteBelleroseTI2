@@ -4,7 +4,7 @@
  * Fichier : CreationDonnees.sql
  * Auteur : Olivier Belrose et Antoine Ouellette
  * Langage : SQL
- * Date : février 2022
+ * Date : avril 2022
  */
 
 DROP DATABASE IF EXISTS RessourcesMonstrueuses;
@@ -59,9 +59,19 @@ CREATE TABLE Visite_salle (
 
 CREATE TABLE Objet (
 	id_objet INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(255),
-    valeur INT,
-    masse FLOAT
+    nom VARCHAR(255) UNIQUE NOT NULL,
+    valeur INT NOT NULL,
+    masse FLOAT NOT NULL
+);
+
+CREATE TABLE Inventaire_expedition (
+	id_expedition INTEGER,
+    objet INTEGER,
+    quantite INTEGER NOT NULL,
+    /* Contraintes */
+    PRIMARY KEY (id_expedition, objet),
+    FOREIGN KEY (id_expedition) REFERENCES Expedition(id_expedition),
+    FOREIGN KEY (objet) REFERENCES Objet(id_objet)
 );
 
 CREATE TABLE Coffre_tresor (
@@ -75,7 +85,7 @@ CREATE TABLE Coffre_tresor (
 CREATE TABLE Ligne_coffre (
 	coffre INTEGER,
 	objet INTEGER,
-    quantite INTEGER,
+    quantite INTEGER NOT NULL,
     /* Contraintes */
     PRIMARY KEY (coffre, objet),
     FOREIGN KEY (coffre) REFERENCES Coffre_tresor(id_coffre_tresor),
@@ -84,63 +94,63 @@ CREATE TABLE Ligne_coffre (
 
 CREATE TABLE Famille_monstre (
 	id_famille INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom_famille VARCHAR(255),
-    point_vie_maximal INTEGER,
-    degat_base INTEGER
+    nom_famille VARCHAR(255) UNIQUE NOT NULL,
+    point_vie_maximal INTEGER NOT NULL,
+    degat_base INTEGER NOT NULL
 );
 
 CREATE TABLE Humanoide (
 	id_humanoide INTEGER PRIMARY KEY AUTO_INCREMENT,
-    famille INTEGER,
+    famille INTEGER NOT NULL,
     arme VARCHAR(255),
-    intelligence INTEGER,
+    intelligence INTEGER NOT NULL,
     /* Contraintes */
     FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille)
 );
 
 CREATE TABLE Mort_vivant (
 	id_mort_vivant INTEGER PRIMARY KEY AUTO_INCREMENT,
-    famille INTEGER,
-    vulnerable_soleil TINYINT,
-    infectieux TINYINT,
+    famille INTEGER NOT NULL,
+    vulnerable_soleil TINYINT NOT NULL,
+    infectieux TINYINT NOT NULL,
     /* Contraintes */
     FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille)
 );
 
 CREATE TABLE Elementaire (
 	id_elementaire INTEGER PRIMARY KEY AUTO_INCREMENT,
-    famille INTEGER,
-    element ENUM('air', 'feu', 'terre', 'eau'),
-    taille ENUM('rikiki', 'moyen', 'grand', 'colossal'),
+    famille INTEGER NOT NULL,
+    element ENUM('air', 'feu', 'terre', 'eau') NOT NULL,
+    taille ENUM('rikiki', 'moyen', 'grand', 'colossal') NOT NULL,
     /* Contraintes */
     FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille)
 );
 
 CREATE TABLE Monstre (
 	id_monstre INTEGER PRIMARY KEY AUTO_INCREMENT,
-	nom VARCHAR(255),
-	code_employe CHAR(4),
-	point_vie INTEGER,
-	attaque INTEGER,
-	numero_ass_maladie BLOB,
-	id_famille INTEGER,
-	experience INTEGER,
+	nom VARCHAR(255) NOT NULL,
+	code_employe CHAR(4) NOT NULL,
+	point_vie INTEGER NOT NULL,
+	attaque INTEGER NOT NULL,
+	numero_ass_maladie BLOB NOT NULL,
+	id_famille INTEGER NOT NULL,
+	experience INTEGER NOT NULL,
 	/* Contraintes */
 	FOREIGN KEY (id_famille) REFERENCES Famille_monstre(id_famille)
 );
 
 CREATE TABLE Responsabilite (
 	id_responsabilite INTEGER PRIMARY KEY AUTO_INCREMENT,
-	titre VARCHAR(255),
-	niveau_responsabilite INTEGER
+	titre VARCHAR(255) NOT NULL,
+	niveau_responsabilite INTEGER NOT NULL
 );
 
 CREATE TABLE Affectation_salle (
 	id_affectation INTEGER PRIMARY KEY AUTO_INCREMENT,
-	monstre INTEGER,
-    responsabilite INTEGER,
-    salle INTEGER,
-    debut_affectation DATETIME,
+	monstre INTEGER NOT NULL,
+    responsabilite INTEGER NOT NULL,
+    salle INTEGER NOT NULL,
+    debut_affectation DATETIME NOT NULL,
     fin_affectation DATETIME,
     /* Contraintes */
     FOREIGN KEY (monstre) REFERENCES Monstre(id_monstre),
