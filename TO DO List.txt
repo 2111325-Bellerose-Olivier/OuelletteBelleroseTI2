@@ -1,0 +1,33 @@
+****** TO DO ******
+CreationDonnees.sql
+    le schema ✔
+    les Check ✘
+InsertionDonnees.sql
+    le fichier ✔
+CreationUsagers.sql
+    roles (CRUD) ✘
+    utilisateurs ✘
+Fonctions.sql
+    1. Crypter()
+    2. Decrypter()
+    3. Responsable()
+    4. Leader()
+    5. EstVivantMonstre()
+    6. EstVivantAventurier()
+Declencheurs.sql
+    1. Validation Capactite Coffre
+    2. Éléments opposés
+    3. Déclencheur de mortalité
+    4. Hashage
+Procedures.sql
+    Procédure intimidation? ✘
+    Procédure combat? ✘
+    Procédure pillage de salle? ✘
+    Procédure visite_salle? ✘
+    Procédure embauche? ✘
+    Procédure de malédiction de débilitation? ✘
+Tests.sql
+Creer une situation/hiatoire qui test les fonctions:
+    tester 2 fonctions ✘
+    tester 3 déclencheurs ✘
+    tester 4 procédures stockées ✘
