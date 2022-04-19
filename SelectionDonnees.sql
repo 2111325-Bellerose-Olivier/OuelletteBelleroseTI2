@@ -6,5 +6,4 @@
  * Langage : SQL
  * Date : avril 2022
  */
- 
-USE RessourcesMonstrueuses;
+
