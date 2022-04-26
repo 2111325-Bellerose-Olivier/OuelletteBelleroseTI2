@@ -4,7 +4,7 @@
  * Fichier : CreationDonnees.sql
  * Auteur : Olivier Belrose et Antoine Ouellette
  * Langage : SQL
- * Date : février 2022
+ * Date : avril 2022
  */
 
 DROP DATABASE IF EXISTS RessourcesMonstrueuses;
@@ -59,9 +59,19 @@ CREATE TABLE Visite_salle (
 
 CREATE TABLE Objet (
 	id_objet INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(255),
-    valeur INT,
-    masse FLOAT
+    nom VARCHAR(255) UNIQUE NOT NULL,
+    valeur INT NOT NULL,
+    masse FLOAT NOT NULL
+);
+
+CREATE TABLE Inventaire_expedition (
+	id_expedition INTEGER,
+    objet INTEGER,
+    quantite INTEGER NOT NULL,
+    /* Contraintes */
+    PRIMARY KEY (id_expedition, objet),
+    FOREIGN KEY (id_expedition) REFERENCES Expedition(id_expedition),
+    FOREIGN KEY (objet) REFERENCES Objet(id_objet)
 );
 
 CREATE TABLE Coffre_tresor (
@@ -75,7 +85,7 @@ CREATE TABLE Coffre_tresor (
 CREATE TABLE Ligne_coffre (
 	coffre INTEGER,
 	objet INTEGER,
-    quantite INTEGER,
+    quantite INTEGER NOT NULL,
     /* Contraintes */
     PRIMARY KEY (coffre, objet),
     FOREIGN KEY (coffre) REFERENCES Coffre_tresor(id_coffre_tresor),
@@ -84,7 +94,7 @@ CREATE TABLE Ligne_coffre (
 
 CREATE TABLE Famille_monstre (
 	id_famille INTEGER PRIMARY KEY AUTO_INCREMENT,
-    nom_famille VARCHAR(255) NOT NULL UNIQUE,
+    nom_famille VARCHAR(255) UNIQUE NOT NULL,
     point_vie_maximal INTEGER NOT NULL,
     degat_base INTEGER NOT NULL
 );

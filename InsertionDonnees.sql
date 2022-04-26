@@ -4,7 +4,7 @@
  * Fichier : InsertionDonnees.sql
  * Auteur : Olivier Belrose et Antoine Ouellette
  * Langage : SQL
- * Date : mars 2022
+ * Date : avril 2022
  */
  
 USE RessourcesMonstrueuses;
