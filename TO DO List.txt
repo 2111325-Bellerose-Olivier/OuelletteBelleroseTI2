@@ -3,17 +3,17 @@ CreationDonnees.sql
     le schema ✔
     les Check ✘
 InsertionDonnees.sql
-    le fichier ✔
+    caller Crypter() ✘
 CreationUsagers.sql
-    roles (CRUD) ✘
-    utilisateurs ✘
+    roles (CRUD) ✔
+    utilisateurs ✔
 Fonctions.sql
     1. Crypter() ✔
     2. Decrypter() ✔
     3. Responsable()
     4. Leader()
     5. Monstres_en_vie() ✔
-    6. Aventuriers_en_vie()
+    6. Aventuriers_en_vie() ✔
 Declencheurs.sql
     1. Validation Capactite Coffre
     2. Éléments opposés
