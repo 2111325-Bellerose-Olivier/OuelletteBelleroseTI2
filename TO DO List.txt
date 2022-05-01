@@ -17,7 +17,7 @@ Fonctions.sql
 Declencheurs.sql
     1. Validation Capactite Coffre
     2. Éléments opposés
-    3. Déclencheur de mortalité
+    3. Déclencheur de mortalité ✔
     4. Hashage
 Procedures.sql
     Procédure intimidation? ✘
