@@ -61,7 +61,7 @@ BEGIN
     
     SET _nbr_vivants = (
 		SELECT
-			counnt(point_vie)
+			count(point_vie)
 		FROM
 			Monstre
 			INNER JOIN Affectation_salle ON id_monstre = monstre
