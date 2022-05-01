@@ -3,7 +3,7 @@ CreationDonnees.sql
     le schema ✔
     les Check ✘
 InsertionDonnees.sql
-    caller Crypter() ✘
+    caller Crypter() ✔
 CreationUsagers.sql
     roles (CRUD) ✔
     utilisateurs ✔
