@@ -28,9 +28,47 @@ UPDATE Aventurier SET point_vie = 1 WHERE id_aventurier = 5;
 
 SELECT aventuriers_en_vie(1) AS 'aventuriers_en_vie() : 1';#Expected 1
 
+# Test Trigger validation_coffre_update(masse)
+#etape 1
+SELECT coffre, objet, quantite, masse FROM Ligne_coffre
+INNER JOIN Objet ON id_objet = objet
+	WHERE coffre = 1 OR coffre = 2;
 
+#etape 2
+#Try{
+-- TRANSACTION;
+UPDATE Ligne_coffre SET quantite = 400
+	WHERE coffre = 1 AND objet = 2;
+#Catch{
+-- ROLLBACK;
+    
+UPDATE Ligne_coffre SET quantite = 3
+	WHERE coffre = 1 AND objet = 2;
+
+#etape 3
+SELECT coffre, group_concat(objet), group_concat(quantite), group_concat(masse), sum(quantite*masse) FROM Objet
+INNER JOIN Ligne_coffre ON id_objet = objet
+	WHERE coffre = 1 OR coffre = 2
+GROUP BY coffre;
+
+SELECT @masse, @quantite, @coffre, @retour;
+
+SELECT
+	sum(quantite*masse)
+FROM
+	Ligne_coffre
+	INNER JOIN Objet ON objet = id_objet
+WHERE
+	coffre = 1;
         
-
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         

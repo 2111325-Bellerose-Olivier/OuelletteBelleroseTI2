@@ -11,42 +11,56 @@ BEGIN
 END $$
 DELIMITER ;
 
-# Validation Coffre 1 : insert
+
+# Validation Coffre 1 : update
+DROP TRIGGER IF EXISTS validation_coffre_update;
 DELIMITER $$
-CREATE TRIGGER validation_coffre_insert BEFORE INSERT ON Ligne_coffre FOR EACH ROW
+CREATE TRIGGER validation_coffre_update BEFORE UPDATE ON Ligne_coffre FOR EACH ROW
 BEGIN
+	DECLARE _quantite_totale INTEGER;
 	DECLARE _masse INTEGER;
     
-    SET _masse = (
+    SET _quantite_totale = (
 			SELECT
-				sum(masse)
+				sum(quantite)
 			FROM
-				Objet
-                INNER JOIN Coffre ON id_objet = objet
+				Ligne_coffre
 			WHERE
 				coffre = NEW.coffre
 	);
     
-	#masse
-    IF _masse > 350 THEN
-		SIGNAL SQLSTATE '00000' SET MESSAGE_TEXT = 'la masse excede 350kg.';
+    SET _masse = (
+			SELECT
+				sum(quantite*masse)
+			FROM
+				Ligne_coffre
+                INNER JOIN Objet ON objet = id_objet
+			WHERE
+				coffre = NEW.coffre
+	);
+    
+    #quantite
+	IF _quantite_totale > 15 THEN
+		SIGNAL SQLSTATE '02005' SET MESSAGE_TEXT = 'la quantite totale d\'objets depasse 15.';
 	END IF;
-	#quantite
-	IF NEW.quantite > 15 THEN
-		SIGNAL SQLSTATE '00000' SET MESSAGE_TEXT = 'la quantite totale d\'objets depasse 15.';
+	#masse
+	IF _masse > 300 THEN
+		SIGNAL SQLSTATE '02004' SET MESSAGE_TEXT = 'la masse totale du coffre depasse 300.';
+		SET @masse = _masse;
+        SET @quantite = NEW.quantite;
+        SET @coffre = NEW.coffre;
 	END IF;
     
 END; $$
 DELIMITER ;
 
-# Validation Coffre 2 : update
+# Validation Coffre 2 : insert
 DELIMITER $$
-CREATE TRIGGER validation_coffre_update BEFORE UPDATE ON Ligne_coffre FOR EACH ROW
+CREATE TRIGGER validation_coffre_insert BEFORE INSERT ON Ligne_coffre FOR EACH ROW
 BEGIN
 	SELECT les_validations_coffre();
 END; $$
 DELIMITER ;
-
 
 # Declencheur mortalite : update
 DROP TRIGGER IF EXISTS declencheur_mortalite;
@@ -62,37 +76,6 @@ BEGIN
 
 END; $$
 DELIMITER ;
-
-
-
-
-
-#etape 1
-START TRANSACTION;
-
-#etape 2
-SELECT point_vie, id_monstre, fin_affectation
-FROM Affectation_salle
-INNER JOIN Monstre ON monstre = id_monstre;
-
-#etape 3
-UPDATE Monstre SET point_vie = 0
-	WHERE id_monstre = 1;
-
-#etape 4
-SELECT point_vie, id_monstre, fin_affectation
-FROM Affectation_salle
-INNER JOIN Monstre ON monstre = id_monstre;
-
-#etape 5
-ROLLBACK;
-
-
-
-
-
-
-
 
 
 
