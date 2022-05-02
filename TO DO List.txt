@@ -27,7 +27,7 @@ Procedures.sql
     Procédure embauche? ✘
     Procédure de malédiction de débilitation? ✘
 Tests.sql
-Creer une situation/hiatoire qui test les fonctions:
+Creer une situation/histoire qui test les fonctions:
     tester 2 fonctions ✘
     tester 3 déclencheurs ✘
     tester 4 procédures stockées ✘
