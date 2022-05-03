@@ -46,6 +46,24 @@ END $$
 DELIMITER ;
 
 /**
+* Fonction pour trouver l'aventurier avec le plus haut niveau dans l'expédition
+*
+*@param _id_expedition chaine de caratère indiquant le nom de l'expédition
+*@return _id_aventurier l'identifiant de l'aventurier avec le plus haut niveau
+*/
+DROP FUNCTION IF EXISTS leader;
+DELIMITER $$
+CREATE FUNCTION leader(_id_expedition INT) RETURNS INT READS SQL DATA DETERMINISTIC
+	BEGIN 
+		DECLARE _id_aventurier INT;
+			SET _id_aventurier = (SELECT id_aventurier, niveau FROM Expedition_aventurier NATURAL JOIN Aventurier
+									WHERE id_expedition = _id_expedition
+									ORDER BY niveau DESC LIMIT 1);
+			RETURN _id_aventurier;
+	END $$
+DELIMITER ;
+
+/**
  * Fonction pour savoir si tous les monstres sont morts
  *
  * @param _id_salle Une salle a valider.
