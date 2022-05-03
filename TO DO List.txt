@@ -10,7 +10,7 @@ CreationUsagers.sql
 Fonctions.sql
     1. Crypter() ✔
     2. Decrypter() ✔
-    3. Responsable()
+    3. Responsable()✔
     4. Leader()✔
     5. Monstres_en_vie() ✔
     6. Aventuriers_en_vie() ✔

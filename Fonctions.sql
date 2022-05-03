@@ -46,6 +46,31 @@ END $$
 DELIMITER ;
 
 /**
+*Fonction pour trouver le monstre le plus fort affecté à une certaine salle à un certain moment
+*
+*@param _fonction_salle chaine de caractère indiquant le fonction d'une salle
+*@param _moment_affectation DATETIME qui indique à quel moment nous voulons trouver le responsable de la salle
+*@return _id_monstre identifiant du monstre responsable assigné à la salle au moment du temps choisi
+*/
+DROP FUNCTION IF EXISTS responsable;
+DELIMITER $$
+CREATE FUNCTION responsable(_fonction_salle VARCHAR(255),_moment_affectation DATETIME) RETURNS INT READS SQL DATA NOT DETERMINISTIC
+	BEGIN
+		DECLARE _id_monstre INT;
+			SET _id_monstre = (SELECT monstre, niveau_responsabilite FROM Salle INNER JOIN (Affectation_salle INNER JOIN Responsabilite
+									ON responsabilite = id_responsabilite) ON id_salle = salle
+									WHERE _moment_affectation BETWEEN debut_affectation AND fin_affectation
+									AND fonction LIKE _fonction_salle
+									ORDER BY niveau_responsabilite DESC LIMIT 1);
+		IF _id_monstre IS NULL THEN
+			SIGNAL SQLSTATE '01001' SET MESSAGE_TEXT = 'IL n\'y a pas de monstre affecté à salle au moment choisi.';
+		ELSE RETURN _id_monstre;
+        END IF;
+	END $$
+DELIMITER ;
+            
+
+/**
 * Fonction pour trouver l'aventurier avec le plus haut niveau dans l'expédition
 *
 *@param _id_expedition chaine de caratère indiquant le nom de l'expédition
@@ -56,7 +81,7 @@ DELIMITER $$
 CREATE FUNCTION leader(_id_expedition INT) RETURNS INT READS SQL DATA DETERMINISTIC
 	BEGIN 
 		DECLARE _id_aventurier INT;
-			SET _id_aventurier = (SELECT id_aventurier, niveau FROM Expedition_aventurier NATURAL JOIN Aventurier
+			SET _id_aventurier = (SELECT id_aventurier FROM Expedition_aventurier NATURAL JOIN Aventurier
 									WHERE id_expedition = _id_expedition
 									ORDER BY niveau DESC LIMIT 1);
 			RETURN _id_aventurier;
