@@ -3,6 +3,7 @@
 * 
 * 
 */
+
 DROP FUNCTION IF EXISTS les_validations_coffre;
 DELIMITER $$
 CREATE FUNCTION les_validations_coffre() RETURNS INT CONTAINS SQL DETERMINISTIC
@@ -10,6 +11,7 @@ BEGIN
 	
 END $$
 DELIMITER ;
+
 
 
 # Validation Coffre 1 : update
@@ -75,6 +77,30 @@ BEGIN
 	END IF;
 
 END; $$
+DELIMITER ;
+
+# Declencher éléments opposé:  insert
+DROP TRIGGER IF EXISTS elements_oppose;
+DELIMITER $$
+CREATE TRIGGER elements_oppose AFTER INSERT ON Affectation_salle FOR EACH ROW
+BEGIN
+	DECLARE _salle INT;
+    DECLARE _temps_debut DATETIME;
+    DECLARE _temps_fin DATETIME;
+    DECLARE _verification INT;
+    
+    SET _salle = (SELECT salle FROM Affectation_salle);
+    SET _temps_debut = (SELECT debut_affectation FROM Affectation_salle);
+    SET _temps_fin = (SELECT fin_affectation FROM Affectation_salle);
+    SET _verification = (SELECT elements_opposes_piece(_salle,_temps_debut,_temps_fin));
+    
+    IF _verification = 1 THEN
+		SIGNAL SQLSTATE '01002' SET MESSAGE_TEXT = 'Il y a un élémentaire d\'eau et de feu d\'assigné à la même salle.';
+	ELSE 
+		RETURN _verification;
+	END IF;
+    
+END $$
 DELIMITER ;
 
 

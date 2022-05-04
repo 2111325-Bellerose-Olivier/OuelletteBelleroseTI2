@@ -16,7 +16,7 @@ Fonctions.sql
     6. Aventuriers_en_vie() ✔
 Declencheurs.sql
     1. Validation Capactite Coffre ✔
-    2. Éléments opposés
+    2. Éléments opposés	✔
     3. Déclencheur de mortalité ✔
     4. Hashage
 Procedures.sql
