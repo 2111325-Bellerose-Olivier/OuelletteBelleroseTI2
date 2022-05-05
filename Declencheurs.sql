@@ -1,7 +1,17 @@
+/*
+ * Declencheurs pour la bd pour Donjon Inc.
+ *
+ * Fichier : Declencheurs.sql
+ * Auteur : Olivier Belrose et Antoine Ouellette
+ * Langage : SQL
+ * Date : mai 2022
+ */
+USE RessourcesMonstrueuses;
 
-# Validation Coffre 1 : update
+/**
+* Declencheur validation Coffre 1 : update
 *
-*@Dependencies Ligne_coffre
+* @Dependencies Affectation_salle
 */
 DROP TRIGGER IF EXISTS validation_coffre_update;
 DELIMITER $$
@@ -55,7 +65,11 @@ BEGIN
 END; $$
 DELIMITER ;
 
-# Validation Coffre 2 : insert
+/**
+* Declencheur validation Coffre 2 : insert
+*
+* @Dependencies Affectation_salle
+*/
 DROP TRIGGER IF EXISTS validation_coffre_insert;
 DELIMITER $$
 CREATE TRIGGER validation_coffre_insert BEFORE INSERT ON Ligne_coffre FOR EACH ROW
@@ -107,9 +121,9 @@ END; $$
 DELIMITER ;
 
 /**
-# Declencheur mortalite : update
+* Declencheur mortalite : update
 *
-*@Dependencies Affectation_salle
+* @Dependencies Affectation_salle
 */
 DROP TRIGGER IF EXISTS declencheur_mortalite;
 DELIMITER $$
@@ -126,9 +140,9 @@ END; $$
 DELIMITER ;
 
 /**
-# Declencher éléments opposé:  insert
+* Declencheur éléments opposé: insert
 *
-*@Dependencies Affectation_salle, Elementaire
+* @Dependencies Affectation_salle, Elementaire
 */
 DROP TRIGGER IF EXISTS elements_oppose;
 DELIMITER $$
@@ -153,9 +167,9 @@ END $$
 DELIMITER ;
 
 /**
-* déclencheur hashage
+* Declencheur hashage : insert
 * 
-*@Dependencies Coffre_tresor
+* @Dependencies Coffre_tresor
 */
 DROP TRIGGER IF EXISTS hashage;
 DELIMITER $$
@@ -169,5 +183,3 @@ BEGIN
     
 END $$
 DELIMITER ;
-
-         
