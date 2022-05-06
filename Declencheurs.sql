@@ -153,9 +153,9 @@ BEGIN
     DECLARE _temps_fin DATETIME;
     DECLARE _verification INT;
     
-    SET _salle = (SELECT salle FROM Affectation_salle);
-    SET _temps_debut = (SELECT debut_affectation FROM Affectation_salle);
-    SET _temps_fin = (SELECT fin_affectation FROM Affectation_salle);
+    SET _salle = (SELECT salle FROM Affectation_salle WHERE salle = NEW.salle);
+    SET _temps_debut = (SELECT debut_affectation FROM Affectation_salle WHERE debut_affectation = NEW.debut_affectation);
+    SET _temps_fin = (SELECT fin_affectation FROM Affectation_salle WHERE fin_affectation = NEW.fin_affectation);
     
     SET _verification = (SELECT elements_opposes_piece(_salle,_temps_debut,_temps_fin));
     
@@ -177,7 +177,7 @@ CREATE TRIGGER hashage BEFORE INSERT ON Coffre_tresor FOR EACH ROW
 BEGIN
 	DECLARE _code CHAR(64);
     
-    SET _code = (SELECT code_secret FROM Coffre_tresor);
+    SET _code = (SELECT code_secret FROM Coffre_tresor WHERE code_secret = NEW.code_secret);
 
      SET NEW.code_secret = SHA2(_code,256);
     

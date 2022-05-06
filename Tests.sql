@@ -1,7 +1,9 @@
 /**
 * Test fonction 1 : monstres_en_vie()
 */
-#Arrange
+START TRANSACTION;
+
+#Les monstres Molustus et Nefustus sont vaincus.
 UPDATE Monstre SET point_vie = 0 WHERE id_monstre = 11;
 UPDATE Monstre SET point_vie = 0 WHERE id_monstre = 15;
 
@@ -14,10 +16,13 @@ INNER JOIN Salle ON salle = id_salle
 #Assert
 SELECT monstres_en_vie(1, '1082-06-26 04:00:00') AS resultat;
 
+ROLLBACK;
 
 /**
 * Test fonction 2 : aventuriers_en_vie()
 */
+START TRANSACTION;
+
 #Arrange
 UPDATE Aventurier SET point_vie = 0 WHERE id_aventurier = 5;#8
 UPDATE Aventurier SET point_vie = 0 WHERE id_aventurier = 9;#12
@@ -33,6 +38,7 @@ UPDATE Aventurier SET point_vie = 1 WHERE id_aventurier = 5;
 
 SELECT aventuriers_en_vie(1) AS 'aventuriers_en_vie() : 1';#Expected 1
 
+ROLLBACK;
 
 /**
 * Test Trigger 1 : validation_coffre_update (quantite)
