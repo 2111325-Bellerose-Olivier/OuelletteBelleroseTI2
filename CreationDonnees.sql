@@ -18,7 +18,8 @@ CREATE TABLE Salle (
 	largeur FLOAT NOT NULL,
 	salle_suivante INTEGER UNIQUE,
 	/* Contraintes */
-	FOREIGN KEY (salle_suivante) REFERENCES Salle(id_salle)
+	FOREIGN KEY (salle_suivante) REFERENCES Salle(id_salle),
+    CONSTRAINT fonction_longueur CHECK (CHAR_LENGTH(fonction)>=5)
 );
 
 CREATE TABLE Aventurier (
@@ -27,7 +28,9 @@ CREATE TABLE Aventurier (
     classe VARCHAR(255) NOT NULL,
     niveau TINYINT NOT NULL,
     point_vie INTEGER NOT NULL,
-    attaque INTEGER NOT NULL
+    attaque INTEGER NOT NULL,
+    /* Contraintes */
+    CONSTRAINT niveau_superieur_zero CHECK (niveau>0)
 );
 
 CREATE TABLE Expedition (
@@ -61,7 +64,10 @@ CREATE TABLE Objet (
 	id_objet INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(255) UNIQUE NOT NULL,
     valeur INT NOT NULL,
-    masse FLOAT NOT NULL
+    masse FLOAT NOT NULL,
+    /* Contraintes */
+    CONSTRAINT valeur_superieure_zero CHECK (valeur>0),
+    CONSTRAINT masse_superieure_zero CHECK (masse>0)
 );
 
 CREATE TABLE Inventaire_expedition (
@@ -89,14 +95,17 @@ CREATE TABLE Ligne_coffre (
     /* Contraintes */
     PRIMARY KEY (coffre, objet),
     FOREIGN KEY (coffre) REFERENCES Coffre_tresor(id_coffre_tresor),
-    FOREIGN KEY (objet) REFERENCES Objet(id_objet)
+    FOREIGN KEY (objet) REFERENCES Objet(id_objet),
+    CONSTRAINT quantite_superieure_zero CHECK (quantite>0)
 );
 
 CREATE TABLE Famille_monstre (
 	id_famille INTEGER PRIMARY KEY AUTO_INCREMENT,
     nom_famille VARCHAR(255) UNIQUE NOT NULL,
     point_vie_maximal INTEGER NOT NULL,
-    degat_base INTEGER NOT NULL
+    degat_base INTEGER NOT NULL,
+    CONSTRAINT point_vie_maximal_superieur_zero CHECK (point_vie_maximal>0),
+    CONSTRAINT degat_base_superieur_zero CHECK (degat_base>0)
 );
 
 CREATE TABLE Humanoide (
@@ -105,7 +114,8 @@ CREATE TABLE Humanoide (
     arme VARCHAR(255),
     intelligence INTEGER NOT NULL,
     /* Contraintes */
-    FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille)
+    FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille),
+    CONSTRAINT intelligence_positive CHECK (intelligence>=0)
 );
 
 CREATE TABLE Mort_vivant (
@@ -114,7 +124,9 @@ CREATE TABLE Mort_vivant (
     vulnerable_soleil TINYINT NOT NULL,
     infectieux TINYINT NOT NULL,
     /* Contraintes */
-    FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille)
+    FOREIGN KEY (famille) REFERENCES Famille_monstre(id_famille),
+	CONSTRAINT vulnerable_soleil_bool CHECK (vulnerable_soleil=0 OR vulnerable_soleil=1),
+    CONSTRAINT infectieux_bool CHECK (infectieux=0 OR infectieux=1)
 );
 
 CREATE TABLE Elementaire (
@@ -142,7 +154,8 @@ CREATE TABLE Monstre (
 CREATE TABLE Responsabilite (
 	id_responsabilite INTEGER PRIMARY KEY AUTO_INCREMENT,
 	titre VARCHAR(255) NOT NULL,
-	niveau_responsabilite INTEGER NOT NULL
+	niveau_responsabilite INTEGER NOT NULL,
+    CONSTRAINT niveau_responsabilite_positif CHECK (niveau_responsabilite>=0)
 );
 
 CREATE TABLE Affectation_salle (
