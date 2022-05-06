@@ -1,7 +1,7 @@
 ****** TO DO ******
 CreationDonnees.sql
     le schema ✔
-    les Check ✘
+    les Check ✔
 InsertionDonnees.sql
     caller Crypter() ✔
 CreationUsagers.sql
@@ -18,7 +18,7 @@ Declencheurs.sql
     1. Validation Capactite Coffre ✔
     2. Éléments opposés	✔
     3. Déclencheur de mortalité ✔
-    4. Hashage	✔
+    4. Hashage ✔
 Procedures.sql
     Procédure intimidation? ✘
     Procédure combat? ✘
@@ -28,6 +28,6 @@ Procedures.sql
     Procédure de malédiction de débilitation? ✘
 Tests.sql
 Creer une situation/histoire qui test les fonctions:
-    tester 2 fonctions ✘
-    tester 3 déclencheurs ✘
-    tester 4 procédures stockées ✘
+    tester 2 fonctions ✔✔
+    tester 3 déclencheurs ✔✔✘
+    tester 4 procédures stockées ✘✘✘✘
