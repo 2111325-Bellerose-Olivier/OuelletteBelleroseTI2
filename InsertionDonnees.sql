@@ -9,7 +9,7 @@
  
 USE RessourcesMonstrueuses;
 
-INSERT INTO Famille_monstre (id_famille, nom_famille, point_vie_maximal, degat_base) VALUES
+INSERT IGNORE INTO Famille_monstre (id_famille, nom_famille, point_vie_maximal, degat_base) VALUES
 	(1, 'Zombie', 12, 3),
 	(2, 'Zombie de Troll', 36, 8),
 	(3, 'Vampire', 42, 6),
@@ -23,25 +23,25 @@ INSERT INTO Famille_monstre (id_famille, nom_famille, point_vie_maximal, degat_b
 	(11, 'Orque', 12, 4),
 	(12, 'Kobold', 6, 2);
     
-INSERT INTO Humanoide (id_humanoide, famille, arme, intelligence) VALUES
+INSERT IGNORE INTO Humanoide (id_humanoide, famille, arme, intelligence) VALUES
 	(1, 9, 'Dague emoussee', 9),
 	(2, 10, 'Cimeterre incurvee', 10),
 	(3, 11, 'Poigne de fer', 6),
 	(4, 12, 'Lance', 13);
     
-INSERT INTO Mort_vivant (id_mort_vivant, famille, vulnerable_soleil, infectieux) VALUES
+INSERT IGNORE INTO Mort_vivant (id_mort_vivant, famille, vulnerable_soleil, infectieux) VALUES
 	(1, 1, 0, 0),
 	(2, 2, 0, 0),
 	(3, 3, 1, 1),
 	(4, 4, 1, 0),
 	(5, 5, 1, 0);
     
-INSERT INTO Elementaire (id_elementaire, famille, element, taille) VALUES
+INSERT IGNORE INTO Elementaire (id_elementaire, famille, element, taille) VALUES
 	(1, 6, 'air', 'moyen'),
 	(2, 7, 'feu', 'rikiki'),
 	(3, 8, 'feu', 'colossal');
     
-INSERT INTO Monstre (id_monstre, nom, code_employe, point_vie, attaque, numero_ass_maladie, id_famille, experience) VALUES
+INSERT IGNORE INTO Monstre (id_monstre, nom, code_employe, point_vie, attaque, numero_ass_maladie, id_famille, experience) VALUES
 	(1, 'Carl', 'C003', 12, 3, crypter('CARL 5606 3111'), 1, 0),
 	(2, 'Boris', 'B004', 12, 3, crypter('BORI 5875 3527'), 1, 0),
 	(3, 'Edward Cullen', 'E001', 36, 8, crypter('EDWA 4982 1003'), 3, 12),
@@ -73,7 +73,7 @@ INSERT INTO Monstre (id_monstre, nom, code_employe, point_vie, attaque, numero_a
 	(29, 'Larry', 'L920', 42, 6, crypter('LARR 6664 3021'), 3, 14),
 	(30, 'Zoriama', 'Z687', 86, 9, crypter('ZORI 9266 3075'), 4, 2);
     
-INSERT INTO Responsabilite (id_responsabilite, titre, niveau_responsabilite) VALUES
+INSERT IGNORE INTO Responsabilite (id_responsabilite, titre, niveau_responsabilite) VALUES
 	(1, 'chef d\'equipe', 10),
 	(2, 'armurier', 6),
 	(3, 'cuisinier', 5),
@@ -87,20 +87,20 @@ INSERT INTO Responsabilite (id_responsabilite, titre, niveau_responsabilite) VAL
 	(11, 'garde de la porte', 5),
 	(12, 'larbin', 2);
     
-INSERT INTO Objet (id_objet, nom, valeur, masse) VALUES
+INSERT IGNORE INTO Objet (id_objet, nom, valeur, masse) VALUES
 	(1, 'arc du peureux', 2500, 1.5),
-	(2, 'armure de nain', 50000, 8),
+	(2, 'armure de nain', 50000, 2),
 	(3, 'bandeau decoratif', 30, 0.5),
 	(4, 'baton de magie mineure', 8000, 2),
-	(5, 'casque aveuglant', 3500, 3.5),
-	(6, 'chaudiere trouee', 125, 2),
+	(5, 'casque aveuglant', 3500, 3),
+	(6, 'chaudiere trouee', 125, 4),
 	(7, 'cle rouillee sans etiquette', 50, 0.1),
 	(8, 'constitution du mulet', 450, 0.25),
 	(9, 'dague de la douleur', 175, 1.75),
 	(10, 'endurance de la fourmis', 2000, 0.25),
 	(11, 'epee vengeresse', 15000, 3.5),
-	(12, 'epieux epnieux', 45000, 7),
-	(13, 'force de l\'elephant', 2000, 0.25),
+	(12, 'epieux epineux', 45000, 7),
+	(13, 'force de l\'elephant', 2000, 30),
 	(14, 'force du sanglier', 450, 0.25),
 	(15, 'fourchette du paysan', 3, 0.25),
 	(16, 'hache rouillee', 300, 4),
@@ -122,7 +122,7 @@ INSERT INTO Objet (id_objet, nom, valeur, masse) VALUES
 	(32, 'veste rapiecee', 50, 1),
 	(33, 'veston leopard', 2500, 1.5);
     
-INSERT INTO Salle (id_salle, fonction, longueur, largeur) VALUES
+INSERT IGNORE INTO Salle (id_salle, fonction, longueur, largeur) VALUES
 	(1, 'salle des explosifs', 8, 6),
 	(2, 'refectoire louche', 25, 20),
 	(3, 'cachot humide', 3, 3),
@@ -150,7 +150,7 @@ UPDATE Salle SET salle_suivante = 13 WHERE id_salle = 10;
 UPDATE Salle SET salle_suivante = 10 WHERE id_salle = 11;
 UPDATE Salle SET salle_suivante = 8 WHERE id_salle = 13;
 
-INSERT INTO Affectation_salle (id_affectation, monstre, responsabilite, salle, debut_affectation, fin_affectation) VALUES
+INSERT IGNORE INTO Affectation_salle (id_affectation, monstre, responsabilite, salle, debut_affectation, fin_affectation) VALUES
 	(1, 11, 1, 1, '1082-06-26 04:00:00', '1082-08-06 12:00:00'),
 	(2, 15, 2, 1, '1082-06-07 04:45:00', '1082-08-22 00:45:00'),
 	(3, 19, 1, 2, '1082-06-15 08:30:00', '1082-09-24 08:00:00'),
@@ -212,7 +212,7 @@ INSERT INTO Affectation_salle (id_affectation, monstre, responsabilite, salle, d
 	(59, 3, 11, 11, '1082-09-25 00:15:00', '1082-11-17 04:30:00'),
 	(60, 5, 1, 3, '1082-09-25 04:30:00', '1082-12-16 12:30:00');
     
-INSERT INTO Aventurier (id_aventurier, nom, classe, niveau, point_vie, attaque) VALUES
+INSERT IGNORE INTO Aventurier (id_aventurier, nom, classe, niveau, point_vie, attaque) VALUES
 	(1, 'Sir Perceval', 'Paladin', 14, 87, 14),
 	(2, 'Golkurth', 'Barabare', 3, 24, 11),
 	(3, 'Rastafilou', 'Voleur', 6, 31, 8),
@@ -229,14 +229,14 @@ INSERT INTO Aventurier (id_aventurier, nom, classe, niveau, point_vie, attaque) 
 	(14, 'Marriely', 'Spadassin', 4, 24, 8),
 	(15, 'Fankesca', 'Sorcière', 1, 7, 4);
     
-INSERT INTO Expedition (id_expedition, nom_equipe, depart, terminaison) VALUES
+INSERT IGNORE INTO Expedition (id_expedition, nom_equipe, depart, terminaison) VALUES
 	(1, 'les aventuriers de la cause perdue', '1082-10-05 08:00:00', '1082-10-05 08:15:00'),
 	(2, 'les lutteurs du desespoire', '1082-10-08 12:00:00', '1082-10-08 16:00:00'),
 	(3, 'la communauté du collier ', '1082-10-09 10:30:00', '1082-10-10 02:15:00'),
 	(4, 'la compagnie de la gloire', '1082-10-14 19:45:00', '1082-10-15 12:35:00'),
 	(5, 'girafes triomphantes ', '1082-10-21 09:00:00', '1082-10-23 15:15:00');
     
-INSERT INTO Expedition_aventurier (id_expedition, id_aventurier) VALUES
+INSERT IGNORE INTO Expedition_aventurier (id_expedition, id_aventurier) VALUES
 	(1, 5),
 	(1, 15),
 	(1, 9),
@@ -252,7 +252,7 @@ INSERT INTO Expedition_aventurier (id_expedition, id_aventurier) VALUES
 	(5, 7),
 	(5, 12);
     
-INSERT INTO Visite_salle (expedition, salle, moment_visite, appreciation) VALUES
+INSERT IGNORE INTO Visite_salle (expedition, salle, moment_visite, appreciation) VALUES
 	(3, 3, '1082-10-05 08:00:00', 'Entree secrete tres evidente et les gardes dormaient, on a pu se faufiller. Belles tapisseries.'),
 	(3, 5, '1082-10-05 08:10:00', 'Salle tres encombree, en faisant tomber des objets on a reveille des monstres'),
 	(3, 1, '1082-10-05 08:15:00', 'Donjon BEAUCOUP TROP DIFFICILE. Rendre les combats plus facile MERCI,,, FACHE !!!'),
@@ -270,7 +270,7 @@ INSERT INTO Visite_salle (expedition, salle, moment_visite, appreciation) VALUES
 	(5, 7, '1082-10-22 09:45:00', 'Trop de richesse à transporter, ils devraient offrir un service de valet pour quand ils sont pilles.'),
 	(5, 12, '1082-10-23 15:10:00', 'Porte tres resistante, combat decent… GGEZ');
 
-INSERT INTO Coffre_tresor (id_coffre_tresor, code_secret, salle) VALUES
+INSERT IGNORE INTO Coffre_tresor (id_coffre_tresor, code_secret, salle) VALUES
 	(1, '1234', 2),
 	(2, '657894201', 3),
 	(3, 'salle 4', 4),
@@ -282,13 +282,13 @@ INSERT INTO Coffre_tresor (id_coffre_tresor, code_secret, salle) VALUES
 	(9, '(FBVD6', 12),
 	(10, '%GSALLE5', 13);
 
-INSERT INTO Ligne_coffre (coffre, objet, quantite) VALUES
-	(1, 2, 3),
-	(1, 6, 1),
-	(2, 22, 1),
-	(2, 26, 2),
-	(2, 29, 8),
-	(2, 33, 3),
+INSERT IGNORE INTO Ligne_coffre (coffre, objet, quantite) VALUES
+	(1, 2, 8),
+	(1, 5, 2),
+    (1, 6, 3),
+	(2, 13, 5),
+	(2, 5, 2),
+	(2, 6, 1),
 	(3, 9, 4),
 	(3, 7, 3),
 	(3, 13, 2),
