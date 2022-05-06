@@ -1,7 +1,7 @@
 ****** TO DO ******
 CreationDonnees.sql
     le schema ✔
-    les Check ✘
+    les Check ✔
 InsertionDonnees.sql
     caller Crypter() ✔
 CreationUsagers.sql
