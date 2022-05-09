@@ -109,3 +109,77 @@ BEGIN
 END $$
 DELIMITER ;
 
+/** 3. combat
+*
+*@param _id_salle
+*@param _id_expedition
+*/
+DELIMITER $$
+CREATE PROCEDURE combat (IN _id_salle INT,IN _id_expedition INT) 
+BEGIN
+	DECLARE _moment_expedition DATETIME;
+	DECLARE aventurier_degats INT;
+    DECLARE monstre_degats INT;
+    DECLARE aventurier_vie INT;
+    DECLARE monstre_vie INT;
+    
+    SET _moment_expedition = (SELECT moment_visite FROM Visite_salle WHERE salle = _id_salle AND expedition = _id_expedition);
+    
+    WHILE aventurier_vie > 0 AND monstre_vie > 0 DO
+		SET aventurier_degats = (SELECT sum(attaque) FROM Aventurier WHERE point_vie > 0);
+        SET monstre_degats = (SELECT sum(attaque) FROM Monstre WHERE point_vie > 0);
+        SET aventurier_vie = (SELECT sum(point_vie) FROM Aventurier);
+        SET monstre_vie = (SELECT sum(point_vie) FROM Monstre);
+		IF aventurier_vie > 0 THEN
+			CALL infliger_dommage_monstre(_id_salle, _moment_expedition, aventurier_degats);
+		END IF;
+        IF monstre_vie > 0 THEN
+			CALL infliger_dommage_aventurier(id_salle,_moment_expedition_monstre_degats);
+		END IF;
+    END WHILE;
+    
+    
+	
+END $$
+DELIMITER ;
+
+/**
+*EXTRA. Pillage
+*
+*@param _id_salle
+*@param _id_expedition
+*/
+DELIMITER $$
+CREATE PROCEDURE pillage (IN _id_salle INT,IN _id_expedition INT)
+BEGIN
+
+END $$
+DELIMITER ;
+
+/**
+*4. visite salle
+*
+*@param _id_salle identifiant de la salle visité
+*@param _id_expe identifiant de l'expédition
+*@param _moment_visite
+*/
+DELIMITER $$
+CREATE PROCEDURE visite_salle (IN _id_salle INT, IN _id_expe INT, IN _moment_visite DATETIME)
+BEGIN
+	INSERT INTO Visite_salle (salle,expedition,moment_visite) 
+		VALUES (_id_salle,_id_expe,_moment_visite);
+	DECLARE _intimidation BOOL;
+    SET _intimidation = intimidation(_id_salle, _id_expedition);
+    DECLARE _vie_aventurier INT;
+    SET _vie_aventurier = (SELECT sum(point_vie) FROM Aventurier);
+    
+    IF _intimidation = TRUE THEN
+    CALL pillage(_id_salle,_id_expe);
+    ELSE 
+		IF _vie_aventurier > 0 THEN
+		CALL pillage(_id_salle,_id_expe);
+    END IF;
+
+END $$
+DELIMITER ;
+
